@@ -25,3 +25,17 @@ type Route struct {
 	Method string `json:"method"`
 	Path   string `json:"path"`
 }
+
+type Msg struct {
+	Type    MsgType
+	Message string
+}
+
+type MsgType string
+
+const (
+	MsgInfo  MsgType = "INFO"
+	MsgError MsgType = "ERROR"
+	MsgDone  MsgType = "DONE"
+	MsgExit  MsgType = "EXIT"
+)
