@@ -16,7 +16,7 @@ type Logger struct {
 	closed  bool
 }
 
-func NewLogger(bufSize int) *Logger {
+func New(bufSize int) *Logger {
 	return &Logger{
 		MsgChan: make(chan types.Msg, bufSize),
 	}
