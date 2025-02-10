@@ -13,7 +13,7 @@ func Echo(r *echo.Echo, opts types.Options) {
 		echoRoutes := r.Routes()
 		var routes []types.Route
 		for _, r := range echoRoutes {
-			if utils.Contains(opts.ExcludePaths, r.Method) {
+			if utils.Contains(opts.ExcludePaths, r.Method) && r.Method == "HEAD" {
 				continue
 			}
 			routes = append(routes, types.Route{Method: r.Method, Path: r.Path})
