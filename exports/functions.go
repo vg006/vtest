@@ -24,3 +24,5 @@ func Expose(router interface{}, opts types.Options) {
 		return
 	}
 }
+
+type Options = types.Options
