@@ -11,13 +11,14 @@ import (
 )
 
 var (
-	ShutdownChan = make(chan struct{})
+	ShutdownChan = make(chan bool, 1)
 	once         sync.Once
 )
 
 func GracefulExit() {
 	once.Do(func() {
-		fmt.Println("[SHUTDOWN] Initiating global shutdown...")
+		fmt.Println(asset.Info + asset.Msg.Render("Initiating Global ShutDown..."))
+		ShutdownChan <- true
 		close(ShutdownChan)
 	})
 }
