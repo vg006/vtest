@@ -20,8 +20,8 @@ var (
 		PaddingLeft(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
-		BorderForeground(WhiteSmoke).
-		Foreground(WhiteSmoke)
+		BorderForeground(LightBlue).
+		Foreground(LightBlue)
 
 	Msg = lipgloss.NewStyle().
 		PaddingLeft(1).
@@ -31,9 +31,9 @@ var (
 		PaddingLeft(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
-		BorderForeground(LightBlue).
+		BorderForeground(WhiteSmoke).
 		Foreground(Black).
-		Background(LightBlue).
+		Background(WhiteSmoke).
 		Render("INFO")
 
 	Done = lipgloss.NewStyle().
