@@ -29,38 +29,46 @@ var (
 
 	Info = lipgloss.NewStyle().
 		PaddingLeft(1).
+		PaddingRight(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
 		BorderForeground(WhiteSmoke).
 		Foreground(Black).
 		Background(WhiteSmoke).
+		Bold(true).
 		Render("INFO")
 
 	Done = lipgloss.NewStyle().
 		PaddingLeft(1).
+		PaddingRight(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
 		BorderForeground(Green).
 		Foreground(Black).
 		Background(Green).
+		Bold(true).
 		Render("DONE")
 
 	Error = lipgloss.NewStyle().
 		PaddingLeft(1).
+		PaddingRight(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
 		BorderForeground(Orange).
 		Foreground(Black).
 		Background(Orange).
+		Bold(true).
 		Render("ERROR")
 
 	Exit = lipgloss.NewStyle().
 		PaddingLeft(1).
+		PaddingRight(1).
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderLeft(true).
 		BorderForeground(Red).
 		Foreground(Black).
 		Background(Red).
+		Bold(true).
 		Render("EXIT")
 )
 
