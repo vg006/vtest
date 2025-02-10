@@ -39,3 +39,19 @@ const (
 	MsgDone  MsgType = "DONE"
 	MsgExit  MsgType = "EXIT"
 )
+
+type ReqSingleUrl struct {
+	Port     string `json:"port"`
+	Method   string `json:"method"`
+	Endpoint string `json:"endpoint"`
+}
+
+type ResSingleUrl struct {
+	StatusCode int      `json:"status_code,omitempty"`
+	Headers    []Header `json:"headers"`
+}
+
+type Header struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
+}
