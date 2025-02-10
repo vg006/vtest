@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -68,5 +70,46 @@ func GetDetails(req types.ReqSingleUrl) (types.ResSingleUrl, error) {
 		}
 	}
 	fmt.Println("Response headers:", res.Headers)
+	return res, nil
+}
+
+func FetchRoutes(req types.ReqSingleUrl) ([]types.Route, error) {
+	var res []types.Route
+
+	url := "http://localhost:" + req.Port + req.Endpoint
+	fmt.Println("Fetching routes from:", url)
+
+	client := http.Client{
+		Timeout: 10 * time.Second,
+	}
+
+	httpReq, err := http.NewRequest(req.Method, url, nil)
+	if err != nil {
+		fmt.Println("Error creating request:", err)
+		return res, err
+	}
+
+	resp, err := client.Do(httpReq)
+	if err != nil {
+		fmt.Println("Error executing request:", err)
+		return res, err
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return res, err
+	}
+
+	if err := json.Unmarshal(body, &res); err != nil {
+		fmt.Println("Error unmarshaling response JSON:", err)
+		return res, err
+	}
+
+	for _, route := range res {
+		fmt.Printf("Method: %s, Path: %s\n", route.Method, route.Path)
+	}
+
 	return res, nil
 }

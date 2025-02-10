@@ -14,7 +14,19 @@ func HomeHandler(e echo.Context) error {
 }
 
 func RoutesHandler(e echo.Context) error {
-	return e.String(200, "Routes")
+	var req types.ReqSingleUrl
+	if err := e.Bind(&req); err != nil {
+		fmt.Println("Error binding request:", err)
+		return e.String(http.StatusBadRequest, "Invalid request")
+	}
+
+	res, err := utils.FetchRoutes(req)
+	if err != nil {
+		fmt.Println("Error fetching response:", err)
+		return e.String(http.StatusInternalServerError, "Error fetching response")
+	}
+	fmt.Println("Response:", res)
+	return e.JSON(http.StatusOK, res)
 }
 
 func DetailsHandler(c echo.Context) error {
