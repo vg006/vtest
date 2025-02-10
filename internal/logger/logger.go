@@ -19,6 +19,7 @@ type Logger struct {
 func New(bufSize int) *Logger {
 	return &Logger{
 		MsgChan: make(chan types.Msg, bufSize),
+		closed:  false,
 	}
 }
 
@@ -26,7 +27,8 @@ func (l *Logger) Exec() {
 	l.wg.Add(1)
 	go func() {
 		defer l.wg.Done()
-		for msg := range l.MsgChan {
+		select {
+		case msg := <-l.MsgChan:
 			switch msg.Type {
 			case types.MsgInfo:
 				fmt.Println(asset.Info + asset.Msg.Render(msg.Message))
