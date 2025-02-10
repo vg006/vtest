@@ -31,8 +31,14 @@ func New(port string) *Server {
 }
 
 func (s *Server) RegisterRoutes() {
-	s.srv.GET("/", HomeHandler)
-	s.srv.GET("/routes", RoutesHandler)
+	s.srv.GET("/", func(c echo.Context) error {
+		return c.String(http.StatusOK, "Hello, World!")
+	})
+
+	api := s.srv.Group("/api")
+
+	api.POST("/details", DetailsHandler)
+	api.POST("/routes", RoutesHandler)
 }
 
 func (s *Server) Exec() {
@@ -47,7 +53,7 @@ func (s *Server) Exec() {
 		if err != nil {
 			s.errCh <- err
 		}
-		close(s.errCh) // Close the channel after sending errors
+		close(s.errCh)
 	}()
 
 	s.wg.Add(1)
@@ -56,7 +62,7 @@ func (s *Server) Exec() {
 		select {
 		case <-s.srvCh:
 			s.logr.LogInfo("Shutdown signal received, shutting down the server...")
-			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) // Timeout added
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
 			if err := s.srv.Shutdown(ctx); err != nil {
 				s.logr.LogError("Error during server shutdown: " + err.Error())
@@ -64,7 +70,7 @@ func (s *Server) Exec() {
 				s.logr.LogDone("Server shut down gracefully.")
 			}
 		case err := <-s.errCh:
-			if err != nil && err != http.ErrServerClosed { // Explicitly ignore http.ErrServerClosed
+			if err != nil && err != http.ErrServerClosed {
 				s.logr.LogError("Server error: " + err.Error())
 				shut.GracefulExit()
 			}
