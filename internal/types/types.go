@@ -52,6 +52,15 @@ type ResSingleUrl struct {
 }
 
 type Header struct {
-	Key   string `json:"Key"`
-	Value string `json:"Value"`
+	Key      string `json:"Key"`
+	Value    string `json:"Value"`
+	Usage    string `json:"Usage"`
+	Level    string `json:"Level"`
+	Presence bool   `json:"Presence"`
+}
+
+type SecurityHeaderInfo struct {
+	Name       string
+	Level      string
+	Importance string
 }
