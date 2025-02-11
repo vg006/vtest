@@ -117,7 +117,7 @@ func FetchRoutes(req types.ReqSingleUrl) ([]types.Route, error) {
 		Timeout: 10 * time.Second,
 	}
 
-	httpReq, err := http.NewRequest(req.Method, url, nil)
+	httpReq, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		return res, err
@@ -142,7 +142,7 @@ func FetchRoutes(req types.ReqSingleUrl) ([]types.Route, error) {
 	}
 
 	for _, route := range res {
-		fmt.Printf("Method: %s, Path: %s\n", route.Method, route.Path)
+		fmt.Printf("Method: %s, Path: %s\n", route.Method, route.Endpoint)
 	}
 
 	return res, nil

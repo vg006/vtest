@@ -16,7 +16,7 @@ func Echo(r *echo.Echo, opts types.Options) {
 			if utils.Contains(opts.ExcludePaths, r.Method) && r.Method == "HEAD" {
 				continue
 			}
-			routes = append(routes, types.Route{Method: r.Method, Path: r.Path})
+			routes = append(routes, types.Route{Method: r.Method, Endpoint: r.Path})
 		}
 		return c.JSON(http.StatusOK, routes)
 	})

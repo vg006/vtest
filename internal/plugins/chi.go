@@ -17,7 +17,7 @@ func Chi(r *chi.Mux, opts types.Options) {
 			if utils.Contains(opts.ExcludeMethods, method) {
 				return nil
 			}
-			routes = append(routes, types.Route{Method: method, Path: route})
+			routes = append(routes, types.Route{Method: method, Endpoint: route})
 			return nil
 		})
 		if err != nil {

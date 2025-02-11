@@ -22,8 +22,8 @@ type Options struct {
 }
 
 type Route struct {
-	Method string `json:"method"`
-	Path   string `json:"path"`
+	Method   string `json:"method"`
+	Endpoint string `json:"endpoint"`
 }
 
 type Msg struct {

@@ -16,8 +16,8 @@ func Fiber(app *fiber.App, opts types.Options) {
 					continue
 				}
 				routes = append(routes, types.Route{
-					Method: route.Method,
-					Path:   route.Path,
+					Method:   route.Method,
+					Endpoint: route.Path,
 				})
 			}
 		}
