@@ -1,1 +1,9 @@
-// place files you want to import through the `$lib` alias in this folder.
+export interface Response {
+  StatusCode: number;
+  Headers: Header[];
+}
+
+export interface Header {
+  Key: string;
+  Value: string;
+}
