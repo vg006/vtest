@@ -10,6 +10,44 @@ import (
 	"github.com/vg006/vtest/internal/types"
 )
 
+var securityHeaders = []types.SecurityHeaderInfo{
+	{
+		Name:       "Strict-Transport-Security",
+		Importance: "Enforces HTTPS connections and prevents downgrade attacks",
+		Level:      "Critical",
+	},
+	{
+		Name:       "Content-Security-Policy",
+		Importance: "Prevents XSS and other code injection attacks",
+		Level:      "Critical",
+	},
+	{
+		Name:       "X-Frame-Options",
+		Importance: "Prevents clickjacking attacks by controlling frame embedding",
+		Level:      "High",
+	},
+	{
+		Name:       "X-Content-Type-Options",
+		Importance: "Prevents MIME-type sniffing security exploits",
+		Level:      "Medium",
+	},
+	{
+		Name:       "X-XSS-Protection",
+		Importance: "Legacy protection, modern browsers use CSP instead",
+		Level:      "Low",
+	},
+	{
+		Name:       "Referrer-Policy",
+		Importance: "Controls how much referrer information is included with requests",
+		Level:      "Medium",
+	},
+	{
+		Name:       "Permissions-Policy",
+		Importance: "Controls which browser features and APIs the site can use",
+		Level:      "Medium",
+	},
+}
+
 func Contains(slice []string, val string) bool {
 	for _, item := range slice {
 		if item == val {
@@ -46,26 +84,22 @@ func GetDetails(req types.ReqSingleUrl) (types.ResSingleUrl, error) {
 	defer resp.Body.Close()
 	res.StatusCode = resp.StatusCode
 
-	securityHeaders := []string{
-		"Strict-Transport-Security", // HSTS
-		"Content-Security-Policy",   // CSP
-		"X-Frame-Options",           // Prevent clickjacking
-		"X-Content-Type-Options",    // Prevent MIME sniffing
-		"X-XSS-Protection",          // Legacy XSS filter
-		"Referrer-Policy",           // Control referrer info
-		"Permissions-Policy",        // Control browser features
-	}
-
-	for _, headerName := range securityHeaders {
-		if value := resp.Header.Get(headerName); value != "" {
+	for _, header := range securityHeaders {
+		if value := resp.Header.Get(header.Name); value != "" {
 			res.Headers = append(res.Headers, types.Header{
-				Key:   headerName,
-				Value: value,
+				Key:      header.Name,
+				Value:    value,
+				Usage:    header.Importance,
+				Level:    header.Level,
+				Presence: true,
 			})
 		} else {
 			res.Headers = append(res.Headers, types.Header{
-				Key:   headerName,
-				Value: "Not set",
+				Key:      header.Name,
+				Value:    "Not set",
+				Usage:    header.Importance,
+				Level:    header.Level,
+				Presence: false,
 			})
 		}
 	}
