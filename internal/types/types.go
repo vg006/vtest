@@ -47,11 +47,11 @@ type ReqSingleUrl struct {
 }
 
 type ResSingleUrl struct {
-	StatusCode int      `json:"status_code,omitempty"`
-	Headers    []Header `json:"headers"`
+	StatusCode int      `json:"StatusCode,omitempty"`
+	Headers    []Header `json:"Headers"`
 }
 
 type Header struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string `json:"Key"`
+	Value string `json:"Value"`
 }
