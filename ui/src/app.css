@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+@layer components {
+    * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .custom-container {
+        @apply min-w-screen min-h-screen bg-gray-200;
+    }
+}
