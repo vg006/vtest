@@ -6,4 +6,7 @@ export interface Response {
 export interface Header {
   Key: string;
   Value: string;
+  Usage: string;
+  Level: string;
+  Presence: boolean;
 }
