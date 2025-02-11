@@ -2,7 +2,9 @@ package server
 
 import (
 	"fmt"
+	"mime"
 	"net/http"
+	"path"
 
 	"github.com/labstack/echo/v4"
 	"github.com/vg006/vtest/internal/types"
@@ -42,4 +44,35 @@ func DetailsHandler(c echo.Context) error {
 	}
 	fmt.Println("Response:", res)
 	return c.JSON(http.StatusOK, res)
+}
+
+func spaHandler(fs http.FileSystem) http.HandlerFunc {
+	fileServer := http.FileServer(fs)
+	return func(w http.ResponseWriter, r *http.Request) {
+		f, err := fs.Open(r.URL.Path)
+		if err != nil {
+			r.URL.Path = "/200.html"
+		} else {
+			fi, err := f.Stat()
+			f.Close()
+			if err != nil || fi.IsDir() {
+				r.URL.Path = "/200.html"
+			}
+		}
+
+		ext := path.Ext(r.URL.Path)
+		if ext != "" {
+			if ct := mime.TypeByExtension(ext); ct != "" {
+				w.Header().Set("Content-Type", ct)
+			}
+		}
+		fileServer.ServeHTTP(w, r)
+	}
+}
+
+func init() {
+	// Ensure proper MIME types for JavaScript and CSS.
+	// This is especially important if the system's MIME types are not set correctly.
+	mime.AddExtensionType(".js", "application/javascript")
+	mime.AddExtensionType(".css", "text/css")
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/vg006/vtest/internal/logger"
 	shut "github.com/vg006/vtest/internal/shutdown"
+	ui "github.com/vg006/vtest/ui"
 )
 
 type Server struct {
@@ -31,9 +32,7 @@ func New(port string) *Server {
 }
 
 func (s *Server) RegisterRoutes() {
-	s.srv.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	s.srv.GET("/*", echo.WrapHandler(spaHandler(http.FS(ui.Build))))
 
 	api := s.srv.Group("/api")
 
